@@ -5,11 +5,11 @@ class Game {
   constructor() {
     this.missed = 0;
     this.phrases = [
-      new Phrase("Life is like a box of chocolates"),
-      new Phrase("There is no trying"),
-      new Phrase("May the force be with you"),
-      new Phrase("You talking to me"),
-      new Phrase("I see dead people"),
+      new Phrase("Don't put all your eggs in one basket"),
+      new Phrase("Every cloud has a silver lining"),
+      new Phrase("Get a taste of your own medicine"),
+      new Phrase("Give someone the cold shoulder"),
+      new Phrase("A dime a dozen"),
     ];
     this.activePhrase = null;
   }

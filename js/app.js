@@ -10,7 +10,7 @@ startNewGame.addEventListener("click", (e) => {
   game.startGame();
 });
 
-// Event listener for the onscreen keyboard to call the handleInteraction() method
+// Event listener for the onscreen keyboard
 const button = document.querySelector("#qwerty");
 button.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
@@ -18,7 +18,7 @@ button.addEventListener("click", (e) => {
   }
 });
 
-// Event listener for the physical keyboard to call the handleInteraction() method
+// Event listener for the physical keyboard 
 document.addEventListener("keydown", (event) => {
   let keyPress = event.key;
   const LETTERS = document.getElementsByClassName("key");

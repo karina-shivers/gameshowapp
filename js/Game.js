@@ -14,14 +14,12 @@ class Game {
     this.activePhrase = null;
   }
 
-  // This method randomly retrieves one of the phrases stored in the phrases array and returns it.
-  getRandomPhrase() {
-    const randomNumber = Math.floor(Math.random() * this.phrases.length);
+  //  randomly retrieves one of the phrases stored 
     const randomPhrase = this.phrases[randomNumber];
     return randomPhrase;
   }
 
-  // this method hides the start screen overlay, calls the getRandomPhrase() method, and adds that phrase to the board by calling the addPhraseToDisplay() method on the Phrase class.
+ 
   startGame() {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
@@ -29,7 +27,7 @@ class Game {
     this.activePhrase.addPhraseToDisplay();
   }
 
-  // This method checks to see if the player has revealed all of the letters in the active phrase.
+  //  checks to see if the player has revealed all of the letters
   checkForWin() {
     const letter = document.getElementsByClassName("hide");
     if (letter.length === 0) {
@@ -39,7 +37,7 @@ class Game {
     }
   }
 
-  // this method removes a life from the scoreboard, by replacing one of the liveHeart.png images with a lostHeart.png image (found in the images folder) and increments the missed property. If the player has five missed guesses (i.e they're out of lives), then end the game by calling the gameOver() method.
+  // -=[]' removes a life from the scoreboard, by replacing one of the liveHeart.png images with a lostHeart.png image (found in the images folder) and increments the missed property. If the player has five missed guesses (i.e they're out of lives), then end the game by calling the gameOver() method.
   removeLife() {
     const TRIES = document.querySelectorAll(".tries img");
     TRIES[this.missed].src = "images/lostHeart.png";
@@ -49,7 +47,7 @@ class Game {
     }
   }
 
-  // this method displays the original start screen overlay, and depending on the outcome of the game, updates the overlay h1 element with a friendly win or loss message, and replaces the overlay’s start CSS class with either the win or lose CSS class.
+ 
   gameOver(gameWon) {
     const OVERLAY = document.querySelector("#overlay");
     const GAMEOVERMESSAGE = document.querySelector("#game-over-message");
@@ -66,7 +64,7 @@ class Game {
     }
   }
 
-  // this method controls most of the game logic. It checks to see if the button clicked by the player matches a letter in the phrase, and then directs the game based on a correct or incorrect guess.
+
 
   handleInteraction(e) {
     if (this.activePhrase.checkLetter(e.textContent) === false) {
@@ -88,7 +86,7 @@ class Game {
     e.disabled = true;
   }
 
-  // this method resets the game board, the missed guesses, and the heart images (i.e. the player's lives) at the start of each game.
+ 
   resetGame(e) {
     this.missed = 0;
     let hearts = document.getElementsByClassName("tries");

@@ -9,11 +9,11 @@ class Game {
   constructor () {
     this.missed = 0
     this.phrases = [
-      new Phrase('Life is like a box of chocolates'),
-      new Phrase('There is no trying'),
-      new Phrase('Once upon a time'),
-      new Phrase('You talking to me'),
-      new Phrase('I see dead people')
+      new Phrase('Better late than never'),
+      new Phrase('Bite the bullet'),
+      new Phrase('Cut somebody some slack'),
+      new Phrase('Get out of hand'),
+      new Phrase('Go back to the drawing board')
     ]
     this.activePhrase = null
   }

@@ -1,35 +1,27 @@
 /* Treehouse FSJS Techdegree
  * Project 4 - OOP Game App
  * app.js */
-// Event listener for the start game button
-let game;
-const startNewGame = document.querySelector("#btn__reset");
-startNewGame.addEventListener("click", (e) => {
-  game = new Game();
-  game.resetGame(e);
-  game.startGame();
-});
+const game = new Game()
+const startButton = document.getElementById('btn__reset')
+startButton.addEventListener('click', (e) => {
+  game.resetGame(e)
+  game.startGame()
+})
 
-// Event listener for the onscreen keyboard
-const button = document.querySelector("#qwerty");
-button.addEventListener("click", (e) => {
-  if (e.target.tagName === "BUTTON") {
-    game.handleInteraction(e.target);
+const keyboard = document.getElementById('qwerty')
+const keys = document.querySelectorAll('.key')
+
+keyboard.onclick = (e) => {
+  const target = e.target
+  if (target.className === 'key') {
+    game.handleInteraction(target)
   }
-});
+}
 
-// Event listener for the physical keyboard 
-document.addEventListener("keydown", (event) => {
-  let keyPress = event.key;
-  const LETTERS = document.getElementsByClassName("key");
-  if (/\w/.test(keyPress)) {
-    for (let i = 0; i < LETTERS.length; i++) {
-      if (
-        keyPress === LETTERS[i].textContent &&
-        LETTERS[i].disabled === false
-      ) {
-        game.handleInteraction(LETTERS[i]);
-      }
+document.addEventListener('keyup', (e) => {
+  for (let i = 0; i < keys.length; i++) {
+    if (e.key === keys[i].innerHTML && keys[i].disabled === false) {
+      game.handleInteraction(keys[i])
     }
   }
-});
+})

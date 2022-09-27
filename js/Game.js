@@ -1,103 +1,116 @@
 /* Treehouse FSJS Techdegree
  * Project 4 - OOP Game App
  * Game.js */
-const startScreen = document.getElementById('overlay')
-const hearts = document.querySelectorAll('.tries')
-const ul = phraseDiv.querySelector('ul')
-
 class Game {
-  constructor () {
-    this.missed = 0
-    this.phrases = [
-      new Phrase('Better late than never'),
-      new Phrase('Bite the bullet'),
-      new Phrase('Cut somebody some slack'),
-      new Phrase('Get out of hand'),
-      new Phrase('Go back to the drawing board')
-    ]
-    this.activePhrase = null
-  }
+    constructor() {
+        this.missed = 0;
+        this.phrases = [
+            new Phrase(`'Better late than never`),
+            new Phrase(`Bite the bullet`),
+            new Phrase(`Cut somebody some slack`),
+            new Phrase(`Get out of hand`),
+            new Phrase(`Go back to the drawing board`)
+        ];
+        this.activePhrase = null;
+    };
 
-  
-  getRandomPhrase () {
-    const randomNumber = Math.floor(Math.random() * this.phrases.length)
-    return this.phrases[randomNumber]
-  }
+    /**
+     * Begins game by selecting a random phrase and displaying it to user
+     */
+    startGame() {
+        document.querySelector('#overlay').style.display = 'none';
+        this.activePhrase = this.getRandomPhrase();
+        this.activePhrase.addPhraseToDisplay();
+    };
 
-  
-  startGame () {
-    document.getElementById('overlay').style.display = 'none'
-    this.activePhrase = this.getRandomPhrase()
-    this.activePhrase.addPhraseToDisplay()
-  }
+    /**
+     * Selects random phrase from phrases property
+     * @return {Object} Phrase object chosen to be used
+     */
+    getRandomPhrase() {
+        const randomNum = Math.floor(Math.random() * this.phrases.length);
+        return this.phrases[randomNum];
+    };
 
-  
-  checkForWin () {
-    let remainingLetters = 0
-    for (let i = 0; i < ul.children.length; i++) {
-      if (ul.children[i].className.includes('hide')) {
-        remainingLetters++
-      }
-    }
-    if (remainingLetters === 0) {
-      return true
-    }
-  }
+    /**
+     * Handles onscreen keyboard button clicks
+     * @param (HTMLButtonElement) button - The clicked button element
+     */
+    handleInteraction(button) {
+        let letter = button.innerText;
+        button.disabled = true;
+        if (this.activePhrase.checkLetter(letter)) {
+            button.classList.add('chosen');
+            this.activePhrase.showMatchedLetter(letter);
+            if(this.checkForWin()) {
+                this.gameOver(true);
+            }
+        } else {
+            button.classList.add('wrong');
+            this.removeLife();
+        }
+    };
 
- 
-  removeLife () {
-    this.missed += 1
-    const heartIndex = hearts.length - this.missed
-    if (this.missed < 5) {
-      hearts[heartIndex].firstChild.src = 'images/lostHeart.png'
-    } else {
-      this.gameOver(false)
-    }
-  }
+    /**
+     * Checks for winning move
+     * @return {boolean} True if game has been won, false if game wasn't won
+     */
+    checkForWin() {
+        let letters = document.querySelector('#phrase').firstElementChild.children;
+        let hiddenLetters = [];
+        for (const letter of letters) {
+            if(letter.classList.contains('hide')){
+                hiddenLetters.push(letter);
+            }
+        }
+        
+        if (hiddenLetters.length > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    };
 
+    /**
+     * Increases the value of the missed property
+     * Removes a life from the scoreboard
+     * Checks if player has remaining lives and ends game if player is out
+     */
+    removeLife() {
+        const hearts = document.querySelector('#scoreboard').firstElementChild.children;
+        for (let i = 0; i < hearts.length; i++) {
+            const heart = hearts[this.missed];
+            heart.innerHTML = `<li class="tries"><img src="images/lostHeart.png" alt="Heart Icon" height="35" width="30"></li>`;
+        }
 
-  gameOver (gameWon) {
-    const message = document.getElementById('game-over-message')
-    if (gameWon) {
-      startScreen.style.display = ''
-      startScreen.className = 'win'
-      message.innerHTML = 'You win!'
-    } else {
-      startScreen.style.display = ''
-      startScreen.className = 'lose'
-      message.innerHTML = `You lose! The phrase was <em>"${this.activePhrase.phrase}"</em>`
-    }
-  }
+        this.missed++;
 
+        if (this.missed >= 5) {
+            this.gameOver(false);
+        }
+    };
 
-  handleInteraction (button) {
-    button.disabled = true
-    if (this.activePhrase.phrase.includes(button.innerHTML)) {
-      button.className += ' chosen'
-      this.activePhrase.showMatchedLetter(button.innerHTML)
-      if (this.checkForWin()) {
-        this.gameOver(true)
-      }
-    } else {
-      button.className += ' wrong'
-      this.removeLife()
-    }
-  }
+    /**
+     * Displays game over message
+     * @param {boolean} gameWon - Whether or not the user won the game
+     */
+    gameOver(gameWon) {
+        const overlay = document.querySelector('#overlay');
+        let message = document.querySelector('#game-over-message');
 
-  resetGame (e) {
-    this.missed = 0
-    const hearts = document.getElementsByClassName('tries')
+        overlay.style.display = 'flex';
 
-    for (let i = 0; i < hearts.length; i++) {
-      hearts[i].firstElementChild.src = 'images/liveHeart.png'
-    }
-    const buttons = document.getElementsByClassName('key')
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove('wrong')
-      buttons[i].classList.remove('chosen')
-      buttons[i].disabled = false
-    }
-    const phrase = document.querySelector('#phrase ul')
-    phrase.innerHTML = ''
-  }
+        if (gameWon) {
+            overlay.className = 'win';
+            message.innerHTML = `Congrats! You won!
+            <br>
+            Try Again?`
+        }
+        if (!gameWon) {
+            overlay.className = 'lose';
+            message.innerHTML = `Woopsi! You ran out of tries.
+            <br>
+            Try Again?`;
+        }
+    };
 }

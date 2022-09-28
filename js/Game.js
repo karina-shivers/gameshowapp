@@ -5,7 +5,7 @@ class Game {
     constructor() {
         this.missed = 0;
         this.phrases = [
-            new Phrase(`'Better late than never`),
+            new Phrase(`Better late than never`),
             new Phrase(`Bite the bullet`),
             new Phrase(`Cut somebody some slack`),
             new Phrase(`Get out of hand`),
